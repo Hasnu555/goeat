@@ -20,6 +20,7 @@ export default function Login() {
         alert("Enter Valid Credentials");
       }
       else{
+        localStorage.setItem("authToken", json.authToken);
         navigate("/");
       }
 
@@ -56,7 +57,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div class="d-grid gap-2">
+        <div className="d-grid gap-2">
         <button type="submit" className="btn btn-success">
         Login
         </button>
