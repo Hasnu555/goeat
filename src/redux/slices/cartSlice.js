@@ -88,6 +88,27 @@ export const removeItemFromCart = createAsyncThunk(
   }
 );
 
+export const clearCart = createAsyncThunk("cart/clearCart", async (_, thunkAPI) => {
+  try {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      return thunkAPI.rejectWithValue("You need to be logged in to clear the cart.");
+    }
+
+    const response = await axios.delete(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data; // Return the empty cart from the server
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "Failed to clear the cart. Please try again."
+    );
+  }
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -133,6 +154,20 @@ const cartSlice = createSlice({
       })
       .addCase(removeItemFromCart.rejected, (state, action) => {
         state.error = action.payload || "Failed to remove item from the cart.";
+        state.loading = false;
+      })
+
+      //Clear Cart
+      .addCase(clearCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(clearCart.fulfilled, (state) => {
+        state.loading = false;
+        state.items = []; // Empty the cart in Redux state
+      })
+      .addCase(clearCart.rejected, (state, action) => {
+        state.error = action.payload || "Failed to clear the cart.";
         state.loading = false;
       });
   },
