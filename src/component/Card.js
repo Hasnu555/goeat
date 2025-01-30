@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../redux/slices/cartSlice";
-import { Card as BootstrapCard, Button, Form, Alert, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import {
+  Card as BootstrapCard,
+  Button,
+  Form,
+  Alert,
+  Spinner,
+} from "react-bootstrap";
+import { FaShoppingCart, FaCog, FaPlus, FaMinus } from "react-icons/fa"; 
 
 export default function CardComponent({ foodItems }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { name, img, description, options } = foodItems;
 
   const [selectedOption, setSelectedOption] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [error, setError] = useState(null); // For error messages
-  const [success, setSuccess] = useState(false); // For success messages
+  const [error, setError] = useState(null); 
+  const [success, setSuccess] = useState(false); 
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -21,19 +30,23 @@ export default function CardComponent({ foodItems }) {
   };
 
   const handleAddToCart = () => {
-    // Validate selection
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/login"); 
+      return;
+    }
+
     if (!selectedOption) {
       setError("Please select an option.");
       return;
     }
 
     const option = options.find((opt) => opt.name === selectedOption);
-    
+
     if (!option) {
       setError("Selected option is invalid.");
       return;
     }
-    console.log(option);
     dispatch(
       addItemToCart({
         foodItemId: foodItems._id,
@@ -42,7 +55,7 @@ export default function CardComponent({ foodItems }) {
           name: option.name,
           price: option.price,
         },
-        img: img
+        img: img,
       })
     );
 
@@ -58,7 +71,10 @@ export default function CardComponent({ foodItems }) {
   };
 
   return (
-    <BootstrapCard className="mt-3" style={{ width: "95%", maxHeight: "560px" }}>
+    <BootstrapCard
+      className="mt-3"
+      style={{ width: "95%", maxHeight: "560px" }}
+    >
       <BootstrapCard.Img
         variant="top"
         src={img}
@@ -69,7 +85,10 @@ export default function CardComponent({ foodItems }) {
         <BootstrapCard.Title>{name}</BootstrapCard.Title>
         <BootstrapCard.Text>{description}</BootstrapCard.Text>
 
-        <Form.Group controlId={`optionSelect-${foodItems._id}`} className="mb-3">
+        <Form.Group
+          controlId={`optionSelect-${foodItems._id}`}
+          className="mb-3"
+        >
           <Form.Select value={selectedOption} onChange={handleOptionChange}>
             <option value="" disabled>
               Select an Option
@@ -82,23 +101,55 @@ export default function CardComponent({ foodItems }) {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group controlId={`quantitySelect-${foodItems._id}`} className="mb-3">
-          <Form.Label>Quantity</Form.Label>
-          <Form.Control
-            type="number"
-            min="1"
-            value={quantity}
-            onChange={handleQuantityChange}
-            style={{ width: "100px" }}
-          />
+        <Form.Group
+          controlId={`quantitySelect-${foodItems._id}`}
+          className="mb-3"
+        >
+          <Form.Label> Quantity</Form.Label>
+          <div className="d-flex align-items-center">
+            <Button
+              variant="outline-secondary"
+              onClick={() =>
+                setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1))
+              } 
+            >
+              <FaMinus />
+            </Button>
+
+            <Form.Control
+              min="1"
+              value={quantity}
+              onChange={handleQuantityChange}
+              style={{
+                width: "80px",
+                margin: "0 10px",
+                textAlign: "center", // This centers the value
+              }}
+            />
+
+            <Button
+              variant="outline-secondary"
+              onClick={() => setQuantity((prevQuantity) => prevQuantity + 1)} // Increase quantity
+            >
+              <FaPlus />
+            </Button>
+          </div>
         </Form.Group>
 
         <Button variant="success" onClick={handleAddToCart} className="w-100">
-          Add to Cart
+          <FaShoppingCart className="me-2" /> Add to Cart
         </Button>
 
-        {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
-        {success && <Alert variant="success" className="mt-3">Item added to cart successfully!</Alert>}
+        {error && (
+          <Alert variant="danger" className="mt-3">
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert variant="success" className="mt-3">
+            Item added to cart successfully!
+          </Alert>
+        )}
       </BootstrapCard.Body>
     </BootstrapCard>
   );

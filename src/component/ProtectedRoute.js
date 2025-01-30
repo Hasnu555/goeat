@@ -1,14 +1,16 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
   const authToken = localStorage.getItem("authToken");
-  const userRole = localStorage.getItem("userRole"); 
-  if (!authToken || userRole !== "admin") {
+
+  // If no auth token, redirect to login
+  if (!authToken) {
     return <Navigate to="/login" replace />;
   }
 
+  // If authenticated, render the children (protected content)
   return children;
 };
 
-export default PrivateRoute;
+export default ProtectedRoute;

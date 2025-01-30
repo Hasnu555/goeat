@@ -18,4 +18,22 @@ const getAllFoodItems = async () => {
     }
   };
 
-module.exports = { getFoodItemsByCategory, getAllFoodItems };
+  const addFoodItem = async ({ CategoryName, name, img, options, description }) => {
+    try {
+      const foodItem = new FoodItem({
+        CategoryName,
+        name,
+        img,
+        options,
+        description
+      });
+  
+      await foodItem.save();
+      return foodItem;
+    } catch (error) {
+      throw new Error('Failed to add food item');
+    }
+  };
+  
+
+module.exports = { getFoodItemsByCategory, getAllFoodItems, addFoodItem };

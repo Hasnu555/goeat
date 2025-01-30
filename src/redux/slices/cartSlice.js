@@ -53,8 +53,8 @@ export const addItemToCart = createAsyncThunk(
           "Content-Type": "application/json",
         },
       });
-
-      return response.data; // Return the updated cart from the server
+      console.log(response.data);
+      return response.data; 
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Failed to add item to the cart. Please try again."

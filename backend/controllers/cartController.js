@@ -8,27 +8,36 @@ exports.addToCart = async (req, res) => {
     const user = req.user._id;
 
     const foodItem = await FoodItem.findById(foodItemId);
-    if (!foodItem) return res.status(404).json({ message: 'Food item not found' });
+    if (!foodItem) return res.status(404).json({ message: "Food item not found" });
 
     let cart = await Cart.findOne({ user });
     if (!cart) {
       cart = new Cart({ user, items: [], totalPrice: 0 });
     }
 
-    const existingItemIndex = cart.items.findIndex(item => item.foodItem.toString() === foodItemId.toString());
+    // Check if an identical item exists in the cart
+    const existingItemIndex = cart.items.findIndex(
+      (item) =>
+        item.foodItem.toString() === foodItemId.toString() &&
+        JSON.stringify(item.options) === JSON.stringify(options)
+    );
+
     if (existingItemIndex > -1) {
+      // If the same item with identical options exists, update its quantity
+      console.log("same item with same option")
       cart.items[existingItemIndex].quantity += quantity;
-      cart.items[existingItemIndex].options = options;
     } else {
+      // Add as a new item if options are different
       cart.items.push({ foodItem: foodItemId, quantity, options, img });
     }
 
     await cart.save();
 
+    console.log(cart);
     res.status(200).json(cart);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 

@@ -53,3 +53,82 @@
   .card-registration .select-arrow {
   top: 13px;
   }
+
+
+  .footer {
+    width: 100%;
+    background-color: rgba(33, 37, 41, 1); /* Dark background */
+    padding: 20px 0;
+    color: white; /* Text color */
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .footer-left {
+    font-size: 14px;
+  }
+  
+  .footer-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    margin-left: 20px;
+  }
+  
+  .footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-left {
+      margin-bottom: 10px;
+    }
+  
+    .footer-links {
+      margin-top: 10px;
+      flex-direction: column;
+    }
+  
+    .footer-links li {
+      margin: 5px 0;
+    }
+  }
+  
+  .admin-panel-container {
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b79e25e7923m?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  
+  .form-container {
+    background-color: rgba(24, 23, 23, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  

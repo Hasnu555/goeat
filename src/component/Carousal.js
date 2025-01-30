@@ -12,7 +12,7 @@ export default function Carousal() {
           className="carousel-caption d-none d-md-block"
           style={{ zIndex: "10" }}
         >
-          <form className="d-flex">
+          {/* <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
@@ -25,7 +25,7 @@ export default function Carousal() {
             >
               Search
             </button>
-          </form>
+          </form> */}
         </div>
 
         <div className="carousel-item active">

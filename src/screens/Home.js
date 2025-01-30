@@ -10,6 +10,7 @@ import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import Card from "../component/Card";
 import Carousal from "../component/Carousal";
+import BackgroundImage from "../image/background.png"
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -37,7 +38,8 @@ export default function Home() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
+      <main className="flex-grow-1">
       <Navbar />
       <Carousal />
 
@@ -90,7 +92,7 @@ export default function Home() {
           <p className="text-center">No food items available.</p>
         )}
       </div>
-
+      </main>
       <Footer />
     </div>
   );

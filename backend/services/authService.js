@@ -27,11 +27,17 @@ const loginUserService = async (email, password) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) throw new Error('Invalid email or password');
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'defaultSecret');
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET || 'defaultSecret',
+      { expiresIn: '1d' }
+    );
+    console.log(token);
     return { user, token };
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
 
 module.exports = { registerUserService, loginUserService };

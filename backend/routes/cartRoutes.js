@@ -14,3 +14,4 @@ router.delete('/:cartItemId', protect, cartController.removeFromCart);
 router.delete('/', protect, cartController.clearCart);
 
 module.exports = router;
+
