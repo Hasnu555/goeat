@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <div className="footer">
-      <footer className="footer-container">
-        <div className="footer-left">
-          <span>© 2024 GoEat, Inc</span>
+      <footer className="bg-dark text-light text-center py-3 mt-5">
+        <div className="container">
+          <p className="mb-0">© 2024 GoEat, Inc. All Rights Reserved.</p>
+          <ul className="list-inline mt-2">
+            <li className="list-inline-item"><Link to="#" className="text-warning text-decoration-none">Privacy Policy</Link></li>
+            <li className="list-inline-item mx-3">|</li>
+            <li className="list-inline-item"><Link to="#" className="text-warning text-decoration-none">Terms of Service</Link></li>
+          </ul>
         </div>
-        <ul className="footer-links">
-          {/* <li><Link to="#" className="footer-link">Link 1</Link></li>
-          <li><Link to="#" className="footer-link">Link 2</Link></li>
-          <li><Link to="#" className="footer-link">Link 3</Link></li> */}
-        </ul>
       </footer>
     </div>
   );

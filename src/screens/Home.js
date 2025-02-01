@@ -10,7 +10,7 @@ import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import Card from "../component/Card";
 import Carousal from "../component/Carousal";
-import BackgroundImage from "../image/background.png"
+import BackgroundImage from "../image/background.png";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -34,64 +34,65 @@ export default function Home() {
     ? foodItems.filter((item) => item.CategoryName === selectedCategory)
     : foodItems;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading)
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  if (error) return <p className="text-danger text-center mt-4">Error: {error}</p>;
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <main className="flex-grow-1">
-      <Navbar />
-      <Carousal />
+        <Navbar />
+        <Carousal />
 
-      {/* Categories Section */}
-      <div className="container my-5">
-        <h2 className="text-center mb-4">Explore by Categories</h2>
-        <div className="row" >
-          {foodCategories.map((category, index) => (
-            <div className="col-md-3 text-center" key={index} style={{marginBottom: '1%' }}>
-              <div
-                className="card border-0 shadow-sm"
-                onClick={() => handleCategoryClick(category.CategoryName)}
-              >
-                <img
-                  src={category.img}
-                  alt={category.CategoryName}
-                  className="card-img-top"
-                  style={{
-                    height: "150px",
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                  }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{category.CategoryName}</h5>
+        {/* Categories Section */}
+        <div className="container my-5">
+          <h2 className="text-center mb-4 fw-bold">Explore by Categories</h2>
+          <div className="row justify-content-center">
+            {foodCategories.map((category, index) => (
+              <div className="col-md-3 text-center mb-3" key={index}>
+                <div className="card border-0 shadow-sm hover-effect" onClick={() => handleCategoryClick(category.CategoryName)}>
+
+                  <img
+                    src={category.img}
+                    alt={category.CategoryName}
+                    className="card-img-top rounded"
+                    style={{ height: "150px", objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title fw-bold">{category.CategoryName}</h5>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          <div className="text-center mb-4" style={{ marginTop: "2%" }}>
-          <button className="btn btn-secondary" onClick={handleViewAll}>
-            View All
-          </button>
-        </div>
-        </div>
-      </div>
-
-      {/* Food Items Section */}
-      <div className="container my-5">
-        <h2 className="text-center mb-4">Our Menu</h2>
-        {filteredFoodItems.length > 0 ? (
-          <div className="row">
-            {filteredFoodItems.map((foodItem) => (
-              <div className="col-md-4 mb-4" key={foodItem._id}>
-                <Card foodItems={foodItem} />
-              </div>
             ))}
+            <div className="text-center mt-3">
+            <button className="btn btn-warning px-4 py-2" onClick={handleViewAll}>
+              View All
+            </button>
+            </div>
           </div>
-        ) : (
-          <p className="text-center">No food items available.</p>
-        )}
-      </div>
+        </div>
+
+        {/* Food Items Section */}
+        <div className="container my-5">
+          <h2 className="text-center mb-4 fw-bold">Our Menu</h2>
+          {filteredFoodItems.length > 0 ? (
+            <div className="row justify-content-center">
+              {filteredFoodItems.map((foodItem) => (
+                <div className="col-md-4 mb-4" key={foodItem._id}>
+                  <Card foodItems={foodItem} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted">No food items available.</p>
+          )}
+        </div>
       </main>
       <Footer />
     </div>

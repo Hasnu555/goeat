@@ -132,3 +132,12 @@
     padding: 20px;
   }
   
+  .hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-effect:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3); /* Adds a glow effect */
+  }
+  
